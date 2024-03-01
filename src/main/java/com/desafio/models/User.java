@@ -17,4 +17,8 @@ public class User {
     String email;
     @Column(name = "password")
     String password;
+    @Column(name = "cpf_cnpj", unique = true)
+    String cpfOrCnpj;
+    @Column(name = "type")
+    String type;
 }
