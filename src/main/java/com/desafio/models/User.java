@@ -8,17 +8,26 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     @Column(name = "name")
     String name;
+
     @Column(name = "email", unique = true)
     String email;
+
     @Column(name = "password")
     String password;
-    @Column(name = "cpf_cnpj", unique = true)
-    String cpfOrCnpj;
+
+    @Column(name = "document", unique = true)
+    String document;
+
     @Column(name = "type")
     String type;
+
+    @Column(name = "wallet")
+    Double wallet;
 }

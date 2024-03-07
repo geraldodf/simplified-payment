@@ -3,7 +3,9 @@ package com.desafio.services;
 import com.desafio.dtos.UpdateUserDTO;
 import com.desafio.models.User;
 import com.desafio.repositories.UserRepository;
-import static  io.micrometer.common.util.StringUtils.isNotBlank;
+
+import static io.micrometer.common.util.StringUtils.isNotBlank;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class UserService {
 
     public User update(Long id, UpdateUserDTO userDTO) {
         User user = this.getOneById(id);
-        if (userDTO.getName() != null & isNotBlank(userDTO.getName())) {
+        if (isNotBlank(userDTO.getName())) {
             user.setName(userDTO.getName());
         } else {
             throw new IllegalArgumentException("Nome nulo ou vazio!");
@@ -57,5 +59,11 @@ public class UserService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Usuário inexistente");
         }
+    }
+
+    public void updateWallet(User user) {
+        User userToUpdate = getOneById(user.getId());
+        userToUpdate.setWallet(user.getWallet());
+        userRepository.save(userToUpdate);
     }
 }

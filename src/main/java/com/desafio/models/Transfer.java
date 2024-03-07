@@ -19,6 +19,7 @@ public class Transfer {
     @ManyToOne
     @JoinColumn(name = "to_user_id")
     User to;
+
     @Column(name = "value")
     Double value;
 
