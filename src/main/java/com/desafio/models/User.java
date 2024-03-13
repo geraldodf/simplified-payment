@@ -16,13 +16,13 @@ public class User {
     @Column(name = "name")
     String name;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     String email;
 
     @Column(name = "password")
     String password;
 
-    @Column(name = "document", unique = true)
+    @Column(name = "document")
     String document;
 
     @Column(name = "type")

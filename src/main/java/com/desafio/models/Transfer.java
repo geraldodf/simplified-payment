@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "Transfer")
+@Entity(name = "transfer")
 @Getter
 @Setter
 public class Transfer {
@@ -13,14 +13,14 @@ public class Transfer {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "from_user_id")
+    @JoinColumn(name = "user_from_fk")
     User from;
 
     @ManyToOne
-    @JoinColumn(name = "to_user_id")
+    @JoinColumn(name = "user_to_fk")
     User to;
 
-    @Column(name = "value")
+    @Column(name = "transfer_value")
     Double value;
 
 }
