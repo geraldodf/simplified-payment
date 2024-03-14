@@ -6,10 +6,14 @@ import com.desafio.models.User;
 import com.desafio.repositories.TransferRepository;
 import com.desafio.utils.ObterMock;
 import com.desafio.utils.SendEmailNotification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TransferService {
@@ -21,29 +25,40 @@ public class TransferService {
         this.userService = userService;
     }
 
-    public ArrayList<Transfer> getAll() {
+    public ResponseEntity<ArrayList<Transfer>> getAll() {
         try {
-            return (ArrayList<Transfer>) this.transferRepository.findAll();
+            ArrayList<Transfer> transfers = (ArrayList<Transfer>) this.transferRepository.findAll();
+            if (!transfers.isEmpty()) {
+                return ResponseEntity.ok(transfers);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Erro ao buscar transferencias");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-
     }
 
-    public Transfer getOneById(Long id) {
+    public ResponseEntity<Transfer> getOneById(Long id) {
         try {
-            return this.transferRepository.findById(id).get();
+            Optional<Transfer> optionalTransfer = this.transferRepository.findById(id);
+            boolean isPresent = optionalTransfer.isPresent();
+            Transfer transfer = isPresent ? optionalTransfer.get() : null;
+            if (isPresent) {
+                return ResponseEntity.ok(transfer);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Transferencia inexistente");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @Transactional
-    public Transfer create(CreateTransferDTO transferDto) {
+    public ResponseEntity<Transfer> create(CreateTransferDTO transferDto) {
         try {
 
-            User userTo = this.userService.getOneById(transferDto.getToId());
-            User userFrom = this.userService.getOneById(transferDto.getFromId());
+            User userTo = this.userService.getOneById(transferDto.getToId()).getBody();
+            User userFrom = this.userService.getOneById(transferDto.getFromId()).getBody();
 
             if ("lojista".equalsIgnoreCase(userFrom.getType())) {
                 throw new IllegalArgumentException("Um lojista não é capaz de fazer transferencias.");
@@ -73,27 +88,30 @@ public class TransferService {
             SendEmailNotification.sendEmailNotification(URL_MOCK_NOTIFICATION, userFrom, "Dinheiro enviado com sucesso!");
             SendEmailNotification.sendEmailNotification(URL_MOCK_NOTIFICATION, userTo, "Dinheiro recebido");
 
-            return this.transferRepository.save(transfer);
+            Transfer savedTransfer = this.transferRepository.save(transfer);
+            return ResponseEntity.status(201).body(savedTransfer);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Problema ao criar uma transferencia: " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    public Transfer update(Long id, Transfer newTransfer) {
-        Transfer transfer = this.getOneById(id);
-        if (newTransfer != null && newTransfer.getValue() != null && newTransfer.getValue() >= 0) {
+    public ResponseEntity<Void> update(Long id, Transfer newTransfer) {
+        Transfer transfer = this.getOneById(id).getBody();
+        if (newTransfer != null && newTransfer.getValue() != null && newTransfer.getValue() >= 0 && transfer != null) {
             transfer.setValue(newTransfer.getValue());
         } else {
-            throw new IllegalArgumentException("Nome nulo ou vazio!");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
-        return this.transferRepository.save(transfer);
+        return ResponseEntity.ok(null);
     }
 
-    public void delete(Long id) {
+    public ResponseEntity<Void> delete(Long id) {
         try {
-            this.transferRepository.delete(this.getOneById(id));
+            Transfer transferToDelete = Objects.requireNonNull(this.getOneById(id).getBody());
+            this.transferRepository.delete(transferToDelete);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Transferencia inexistente");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

@@ -1,14 +1,19 @@
 package com.desafio.services;
 
 import com.desafio.dtos.UpdateUserDTO;
+import com.desafio.models.Transfer;
 import com.desafio.models.User;
 import com.desafio.repositories.UserRepository;
 
 import static io.micrometer.common.util.StringUtils.isNotBlank;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,51 +23,66 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public ArrayList<User> getAll() {
+    public ResponseEntity<ArrayList<User>> getAll() {
         try {
-            return (ArrayList<User>) this.userRepository.findAll();
+            ArrayList<User> users = (ArrayList<User>) this.userRepository.findAll();
+            if (!users.isEmpty()) {
+                return ResponseEntity.ok(users);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Erro ao buscar usuários");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
     }
 
-    public User getOneById(Long id) {
+    public ResponseEntity<User> getOneById(Long id) {
         try {
-            return this.userRepository.findById(id).get();
+            Optional<User> optionalUser = this.userRepository.findById(id);
+            boolean isPresent = optionalUser.isPresent();
+            User user = isPresent ? optionalUser.get() : null;
+            if (isPresent) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Usuário inexistente");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    public User create(User user) {
+    public ResponseEntity<User> create(User user) {
         try {
-            return this.userRepository.save(user);
+            User savedUser = this.userRepository.save(user);
+            return ResponseEntity.status(201).body(savedUser);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Problema ao criar usuário");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    public User update(Long id, UpdateUserDTO userDTO) {
-        User user = this.getOneById(id);
+    public ResponseEntity<Void> update(Long id, UpdateUserDTO userDTO) {
+        User user = this.getOneById(id).getBody();
         if (isNotBlank(userDTO.getName())) {
             user.setName(userDTO.getName());
         } else {
-            throw new IllegalArgumentException("Nome nulo ou vazio!");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
-        return this.userRepository.save(user);
+        return ResponseEntity.ok(null);
     }
 
-    public void delete(Long id) {
+    public ResponseEntity<Void> delete(Long id) {
         try {
-            this.userRepository.delete(this.getOneById(id));
+            User userToDelete = Objects.requireNonNull(this.getOneById(id).getBody());
+            this.userRepository.delete(userToDelete);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Usuário inexistente");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     public void updateWallet(User user) {
-        User userToUpdate = getOneById(user.getId());
+        User userToUpdate = getOneById(user.getId()).getBody();
         userToUpdate.setWallet(user.getWallet());
         userRepository.save(userToUpdate);
     }
