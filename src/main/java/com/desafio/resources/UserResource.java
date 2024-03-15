@@ -1,8 +1,10 @@
 package com.desafio.resources;
 
+import com.desafio.dtos.CreateUserDTO;
 import com.desafio.dtos.UpdateUserDTO;
 import com.desafio.models.User;
 import com.desafio.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,8 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        return this.userService.create(user);
+    public ResponseEntity<User> create(@RequestBody @Valid CreateUserDTO userDto) {
+        return this.userService.create(userDto);
     }
 
     @PutMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.desafio.services;
 
+import com.desafio.dtos.CreateUserDTO;
 import com.desafio.dtos.UpdateUserDTO;
 import com.desafio.models.Transfer;
 import com.desafio.models.User;
@@ -52,8 +53,9 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<User> create(User user) {
+    public ResponseEntity<User> create(CreateUserDTO userDto) {
         try {
+            User user = userDto.toUser();
             User savedUser = this.userRepository.save(user);
             return ResponseEntity.status(201).body(savedUser);
         } catch (Exception e) {
