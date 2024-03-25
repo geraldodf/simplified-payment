@@ -5,7 +5,7 @@ import com.desafio.models.Transfer;
 import com.desafio.models.User;
 import com.desafio.repositories.TransferRepository;
 import com.desafio.utils.ObterMock;
-import com.desafio.utils.SendEmailNotification;
+import com.desafio.notification.SendEmailNotification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,9 +68,9 @@ public class TransferService {
 
         boolean autorizado = "autorizado".equalsIgnoreCase(ObterMock.obterMensagemDoMock(URL_MOCK_AUTHORIZATION).getMessage());
         if (!autorizado) throw new IllegalArgumentException("Não está autorizado!!");
-
-        SendEmailNotification.sendEmailNotification(URL_MOCK_NOTIFICATION, userFrom, "Dinheiro enviado com sucesso!");
-        SendEmailNotification.sendEmailNotification(URL_MOCK_NOTIFICATION, userTo, "Dinheiro recebido");
+        var emailNotificationSender = new SendEmailNotification();
+        emailNotificationSender.sendNotification(URL_MOCK_NOTIFICATION, userFrom, "Dinheiro enviado com sucesso!");
+        emailNotificationSender.sendNotification(URL_MOCK_NOTIFICATION, userTo, "Dinheiro recebido");
 
         return this.transferRepository.save(transfer);
     }
