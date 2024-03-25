@@ -2,7 +2,11 @@ package com.desafio.dtos;
 
 import com.desafio.models.User;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CreateUserDTO {
     @NotBlank(message = "Name cannot be blank")
     String name;
