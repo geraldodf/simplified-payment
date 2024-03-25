@@ -3,10 +3,9 @@ package com.desafio.resources;
 import com.desafio.dtos.CreateTransferDTO;
 import com.desafio.models.Transfer;
 import com.desafio.services.TransferService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transfers")
@@ -19,27 +18,27 @@ public class TransferResource {
     }
 
     @GetMapping()
-    public ResponseEntity<ArrayList<Transfer>> getAll() {
+    public List<Transfer> getAll() {
         return this.transferService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transfer> getOneById(@PathVariable("id") Long id) {
+    public Transfer getOneById(@PathVariable("id") Long id) {
         return this.transferService.getOneById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Transfer> create(@RequestBody CreateTransferDTO transferDto) {
+    public Transfer create(@RequestBody CreateTransferDTO transferDto) {
         return this.transferService.create(transferDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody Transfer transfer) {
-        return this.transferService.update(id, transfer);
+    public void update(@PathVariable("id") Long id, @RequestBody Transfer transfer) {
+        this.transferService.update(id, transfer);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        return this.transferService.delete(id);
+    public void delete(@PathVariable("id") Long id) {
+        this.transferService.delete(id);
     }
 }
