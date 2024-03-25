@@ -41,8 +41,8 @@ public class TransferService {
 
     @Transactional
     public Transfer create(CreateTransferDTO transferDto) {
-        User userTo = this.userService.getOneById(transferDto.getToId()).getBody();
-        User userFrom = this.userService.getOneById(transferDto.getFromId()).getBody();
+        User userTo = this.userService.getOneById(transferDto.getToId());
+        User userFrom = this.userService.getOneById(transferDto.getFromId());
 
         if ("lojista".equalsIgnoreCase(userFrom.getType())) {
             throw new IllegalArgumentException("Um lojista não é capaz de fazer transferencias.");
