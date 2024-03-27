@@ -21,7 +21,7 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<User> getAll() {
         return this.userService.getAll();
     }

@@ -1,19 +1,15 @@
 package com.desafio.dtos;
 
 import com.desafio.models.User;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class UpdateUserDTO {
-    String name;
-    String email;
-    String password;
-    String document;
-    String type;
-    Double wallet;
-
+public record UpdateUserDTO(
+        String name,
+        String email,
+        String password,
+        String document,
+        String type,
+        Double wallet
+) {
     User toUser() {
         User user = new User();
 

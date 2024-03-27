@@ -17,7 +17,7 @@ public class TransferResource {
         this.transferService = transferService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Transfer> getAll() {
         return this.transferService.getAll();
     }

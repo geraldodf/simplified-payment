@@ -41,8 +41,8 @@ public class UserService {
 
     public void update(Long id, UpdateUserDTO userDTO) {
         User user = this.getOneById(id);
-        if (isNotBlank(userDTO.getName())) {
-            user.setName(userDTO.getName());
+        if (isNotBlank(userDTO.name())) {
+            user.setName(userDTO.name());
         }
     }
 
