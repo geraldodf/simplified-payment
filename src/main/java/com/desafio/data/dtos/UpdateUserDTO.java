@@ -1,6 +1,6 @@
-package com.desafio.dtos;
+package com.desafio.data.dtos;
 
-import com.desafio.models.User;
+import com.desafio.data.models.User;
 
 public record UpdateUserDTO(
         String name,

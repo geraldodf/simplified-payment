@@ -1,8 +1,6 @@
 package com.desafio.notification;
 
-import com.desafio.models.User;
-import com.desafio.utils.MockResponse;
-import org.springframework.web.client.RestTemplate;
+import com.desafio.data.models.User;
 
 public class SendEmailNotification implements NotificationSender {
     @Override

@@ -1,6 +1,6 @@
 package com.desafio.notification;
 
-import com.desafio.models.User;
+import com.desafio.data.models.User;
 
 public interface NotificationSender {
 

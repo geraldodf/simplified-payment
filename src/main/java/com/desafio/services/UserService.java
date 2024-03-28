@@ -1,8 +1,8 @@
 package com.desafio.services;
 
-import com.desafio.dtos.CreateUserDTO;
-import com.desafio.dtos.UpdateUserDTO;
-import com.desafio.models.User;
+import com.desafio.data.dtos.CreateUserDTO;
+import com.desafio.data.dtos.UpdateUserDTO;
+import com.desafio.data.models.User;
 import com.desafio.repositories.UserRepository;
 
 import static io.micrometer.common.util.StringUtils.isNotBlank;

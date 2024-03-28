@@ -1,10 +1,9 @@
 package com.desafio.services;
 
-import com.desafio.dtos.CreateTransferDTO;
-import com.desafio.models.Transfer;
-import com.desafio.models.User;
+import com.desafio.data.dtos.CreateTransferDTO;
+import com.desafio.data.models.Transfer;
+import com.desafio.data.models.User;
 import com.desafio.repositories.TransferRepository;
-import com.desafio.utils.ObterMock;
 import com.desafio.notification.SendEmailNotification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

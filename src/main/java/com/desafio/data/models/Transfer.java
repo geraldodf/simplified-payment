@@ -1,4 +1,4 @@
-package com.desafio.models;
+package com.desafio.data.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;

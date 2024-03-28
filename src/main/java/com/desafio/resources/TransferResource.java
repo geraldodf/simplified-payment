@@ -1,7 +1,7 @@
 package com.desafio.resources;
 
-import com.desafio.dtos.CreateTransferDTO;
-import com.desafio.models.Transfer;
+import com.desafio.data.dtos.CreateTransferDTO;
+import com.desafio.data.models.Transfer;
 import com.desafio.services.TransferService;
 import org.springframework.web.bind.annotation.*;
 

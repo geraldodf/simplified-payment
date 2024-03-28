@@ -1,14 +1,12 @@
 package com.desafio.resources;
 
-import com.desafio.dtos.CreateUserDTO;
-import com.desafio.dtos.UpdateUserDTO;
-import com.desafio.models.User;
+import com.desafio.data.dtos.CreateUserDTO;
+import com.desafio.data.dtos.UpdateUserDTO;
+import com.desafio.data.models.User;
 import com.desafio.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
