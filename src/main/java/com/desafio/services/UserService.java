@@ -22,21 +22,18 @@ public class UserService {
     }
 
     public List<User> getAll() {
-        List<User> users = this.userRepository.findAll();
-        return users;
+        return this.userRepository.findAll();
     }
 
     public User getOneById(Long id) {
         Optional<User> optionalUser = this.userRepository.findById(id);
         boolean isPresent = optionalUser.isPresent();
-        User user = isPresent ? optionalUser.get() : null;
-        return user;
+        return isPresent ? optionalUser.get() : null;
     }
 
     public User create(CreateUserDTO userDto) {
         User user = userDto.toUser();
-        User savedUser = this.userRepository.save(user);
-        return user;
+        return this.userRepository.save(user);
     }
 
     public User update(Long id, UpdateUserDTO userDTO) {

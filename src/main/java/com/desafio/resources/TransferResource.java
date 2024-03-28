@@ -32,11 +32,6 @@ public class TransferResource {
         return this.transferService.create(transferDto);
     }
 
-    @PutMapping("/{id}")
-    public void update(@PathVariable("id") Long id, @RequestBody Transfer transfer) {
-        this.transferService.update(id, transfer);
-    }
-
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Long id) {
         this.transferService.delete(id);

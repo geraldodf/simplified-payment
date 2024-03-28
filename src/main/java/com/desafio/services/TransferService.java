@@ -75,14 +75,7 @@ public class TransferService {
 
             return this.transferRepository.save(transfer);
         } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public void update(Long id, Transfer newTransfer) {
-        Transfer transfer = this.getOneById(id);
-        if (newTransfer != null && newTransfer.getValue() != null && newTransfer.getValue() >= 0 && transfer != null) {
-            transfer.setValue(newTransfer.getValue());
+            throw new IllegalArgumentException(e);
         }
     }
 
