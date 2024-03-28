@@ -35,8 +35,8 @@ public class UserResource {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") Long id, @RequestBody UpdateUserDTO userDTO) {
-       this.userService.update(id, userDTO);
+    public User update(@PathVariable("id") Long id, @RequestBody UpdateUserDTO userDTO) {
+       return this.userService.update(id, userDTO);
     }
 
     @DeleteMapping("{id}")

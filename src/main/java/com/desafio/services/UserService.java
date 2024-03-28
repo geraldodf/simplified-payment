@@ -39,11 +39,9 @@ public class UserService {
         return user;
     }
 
-    public void update(Long id, UpdateUserDTO userDTO) {
+    public User update(Long id, UpdateUserDTO userDTO) {
         User user = this.getOneById(id);
-        if (isNotBlank(userDTO.name())) {
-            user.setName(userDTO.name());
-        }
+        return this.userRepository.save(userDTO.updateUser(user));
     }
 
     public void delete(Long id) {
