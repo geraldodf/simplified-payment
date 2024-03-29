@@ -1,6 +1,7 @@
 package com.desafio.services;
 
 import com.desafio.data.dtos.CreateUserDTO;
+import com.desafio.data.dtos.ReadUserDTO;
 import com.desafio.data.dtos.UpdateUserDTO;
 import com.desafio.data.models.User;
 import com.desafio.repositories.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -21,8 +23,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAll() {
-        return this.userRepository.findAll();
+    public List<ReadUserDTO> getAll() {
+        return this.userRepository.findAll().parallelStream()
+                .map(ReadUserDTO::userToReadDTO)
+                .collect(Collectors.toList());
     }
 
     public User getOneById(Long id) {

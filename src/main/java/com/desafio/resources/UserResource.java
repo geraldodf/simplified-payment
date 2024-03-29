@@ -1,6 +1,7 @@
 package com.desafio.resources;
 
 import com.desafio.data.dtos.CreateUserDTO;
+import com.desafio.data.dtos.ReadUserDTO;
 import com.desafio.data.dtos.UpdateUserDTO;
 import com.desafio.data.models.User;
 import com.desafio.services.UserService;
@@ -20,7 +21,7 @@ public class UserResource {
     }
 
     @GetMapping
-    public List<User> getAll() {
+    public List<ReadUserDTO> getAll() {
         return this.userService.getAll();
     }
 
@@ -36,7 +37,7 @@ public class UserResource {
 
     @PutMapping("/{id}")
     public User update(@PathVariable("id") Long id, @RequestBody UpdateUserDTO userDTO) {
-       return this.userService.update(id, userDTO);
+        return this.userService.update(id, userDTO);
     }
 
     @DeleteMapping("{id}")
