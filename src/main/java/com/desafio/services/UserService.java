@@ -6,8 +6,6 @@ import com.desafio.data.dtos.UpdateUserDTO;
 import com.desafio.data.models.User;
 import com.desafio.repositories.UserRepository;
 
-import static io.micrometer.common.util.StringUtils.isNotBlank;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,5 +52,11 @@ public class UserService {
         User userToUpdate = getOneById(user.getId());
         userToUpdate.setWallet(user.getWallet());
         userRepository.save(userToUpdate);
+    }
+
+    public User getOneByEmail(String email) {
+        Optional<User> optionalUser = this.userRepository.findByEmail(email);
+        boolean isPresent = optionalUser.isPresent();
+        return isPresent ? optionalUser.get() : null;
     }
 }

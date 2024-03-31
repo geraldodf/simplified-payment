@@ -30,6 +30,11 @@ public class UserResource {
         return this.userService.getOneById(id);
     }
 
+    @GetMapping("/email")
+    public User getOneByEmail(@RequestParam("email") String email) {
+        return this.userService.getOneByEmail(email);
+    }
+
     @PostMapping
     public User create(@RequestBody @Valid CreateUserDTO userDto) {
         return this.userService.create(userDto);
