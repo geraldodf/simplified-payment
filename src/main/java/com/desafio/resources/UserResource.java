@@ -35,6 +35,11 @@ public class UserResource {
         return this.userService.getOneByEmail(email);
     }
 
+    @GetMapping("/document")
+    public User getOneByDocument(@RequestParam("document") String document) {
+        return this.userService.getOneByDocument(document);
+    }
+
     @PostMapping
     public User create(@RequestBody @Valid CreateUserDTO userDto) {
         return this.userService.create(userDto);

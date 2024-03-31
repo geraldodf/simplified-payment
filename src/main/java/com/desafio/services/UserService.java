@@ -59,4 +59,10 @@ public class UserService {
         boolean isPresent = optionalUser.isPresent();
         return isPresent ? optionalUser.get() : null;
     }
+
+    public User getOneByDocument(String document) {
+        Optional<User> optionalUser = this.userRepository.findByDocument(document);
+        boolean isPresent = optionalUser.isPresent();
+        return isPresent ? optionalUser.get() : null;
+    }
 }
