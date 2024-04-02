@@ -5,5 +5,6 @@ CREATE TABLE users (
     password varchar(266),
     document varchar(266) UNIQUE,
     type varchar(266),
-    wallet varchar(266)
+    wallet varchar(266),
+    role TEXT NOT NULL
 )
