@@ -5,6 +5,7 @@ import com.desafio.data.models.Transfer;
 import com.desafio.data.models.User;
 import com.desafio.repositories.TransferRepository;
 import com.desafio.notification.SendEmailNotification;
+import com.desafio.utils.ObterMock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,15 +64,14 @@ public class TransferService {
             transfer.setFrom(userFrom);
             transfer.setValue(transferDto.value());
 
-//            final String URL_MOCK_AUTHORIZATION = "https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc";
-//            final String URL_MOCK_NOTIFICATION = "https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6";
+            final String URL_MOCK_AUTHORIZATION = "https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc";
+            final String URL_MOCK_NOTIFICATION = "https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6";
 
-//            boolean autorizado = "autorizado".equalsIgnoreCase(ObterMock.obterMensagemDoMock(URL_MOCK_AUTHORIZATION).getMessage());
-            boolean autorizado = true; // Era o mock que fazia isso e retornava um json com um atributo message com o valor true.
-            if (!autorizado) throw new IllegalArgumentException("Não está autorizado!!");
+            boolean autorizado = "autorizado".equalsIgnoreCase(ObterMock.obterMensagemDoMock(URL_MOCK_AUTHORIZATION).getMessage());
+            if (!autorizado) throw new IllegalArgumentException("Não está autorizado!");
             var emailNotificationSender = new SendEmailNotification();
-            emailNotificationSender.sendNotification("URL_MOCK_NOTIFICATION", userFrom, "Dinheiro enviado com sucesso!");
-            emailNotificationSender.sendNotification("URL_MOCK_NOTIFICATION", userTo, "Dinheiro recebido");
+            emailNotificationSender.sendNotification(URL_MOCK_NOTIFICATION, userFrom, "Dinheiro enviado");
+            emailNotificationSender.sendNotification(URL_MOCK_NOTIFICATION, userTo, "Dinheiro recebido");
 
             return this.transferRepository.save(transfer);
         } catch (Exception e) {
