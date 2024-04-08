@@ -30,11 +30,6 @@ public class UserResource {
         return this.userService.getOneById(id);
     }
 
-    @GetMapping("/email")
-    public User getOneByEmail(@RequestParam("email") String email) {
-        return this.userService.getOneByEmail(email);
-    }
-
     @GetMapping("/document")
     public User getOneByDocument(@RequestParam("document") String document) {
         return this.userService.getOneByDocument(document);

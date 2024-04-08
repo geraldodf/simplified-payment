@@ -1,5 +1,6 @@
 package com.desafio.data.dtos;
 
+import com.desafio.data.UserRole;
 import com.desafio.data.models.User;
 import jakarta.validation.constraints.*;
 
@@ -24,8 +25,10 @@ public record CreateUserDTO(
 
         @Positive
         @NotNull
-        Double wallet
+        Double wallet,
 
+        @NotNull(message = "Role cannot be null")
+        UserRole role
 
 ) {
     public User toUser() {
@@ -36,7 +39,7 @@ public record CreateUserDTO(
         user.setDocument(this.document);
         user.setType(this.type);
         user.setWallet(this.wallet);
-
+        user.setRole(this.role);
         return user;
     }
 }

@@ -6,6 +6,8 @@ import com.desafio.data.dtos.UpdateUserDTO;
 import com.desafio.data.models.User;
 import com.desafio.repositories.UserRepository;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class UserService {
 
     public User create(CreateUserDTO userDto) {
         User user = userDto.toUser();
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.password()));
         return this.userRepository.save(user);
     }
 
@@ -54,15 +57,13 @@ public class UserService {
         userRepository.save(userToUpdate);
     }
 
-    public User getOneByEmail(String email) {
-        Optional<User> optionalUser = this.userRepository.findByEmail(email);
-        boolean isPresent = optionalUser.isPresent();
-        return isPresent ? optionalUser.get() : null;
-    }
-
     public User getOneByDocument(String document) {
         Optional<User> optionalUser = this.userRepository.findByDocument(document);
         boolean isPresent = optionalUser.isPresent();
         return isPresent ? optionalUser.get() : null;
+    }
+
+    public UserDetails getOneByEmail(String document) {
+        return this.userRepository.findByEmail(document);
     }
 }
