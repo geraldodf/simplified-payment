@@ -1,13 +1,13 @@
-package com.desafio;
+package com.simplifiedpayment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DesafioBackendApplication {
+public class SimplifiedPaymentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DesafioBackendApplication.class, args);
+		SpringApplication.run(SimplifiedPaymentApplication.class, args);
 	}
 
 }

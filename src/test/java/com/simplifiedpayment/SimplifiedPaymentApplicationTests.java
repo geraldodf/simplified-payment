@@ -1,10 +1,10 @@
-package com.desafio;
+package com.simplifiedpayment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DesafioBackendApplicationTests {
+class SimplifiedPaymentApplicationTests {
 
 	@Test
 	void contextLoads() {
