@@ -1,4 +1,4 @@
-CREATE TABLE transfer (
+CREATE TABLE transfers (
     id SERIAL PRIMARY KEY,
     user_from_fk INT,
     user_to_fk INT,
