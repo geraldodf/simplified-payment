@@ -17,7 +17,7 @@ public class TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
-    private final String issuer = "desafio-backend";
+    private final String issuer = "simplified-payment";
 
     public String generateToken(User user) {
         try {
@@ -41,7 +41,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException e) {
-            return "";
+            throw new RuntimeException("Error while validating Token ", e);
         }
     }
 
