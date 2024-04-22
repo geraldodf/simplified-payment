@@ -2,7 +2,9 @@ package com.simplifiedpayment.data.models;
 
 import com.simplifiedpayment.data.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +17,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -42,10 +45,19 @@ public class User implements UserDetails {
     @Column(name = "role")
     private UserRole role;
 
+    public User(String name, String email, String password, String document, String type, Double wallet, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.document = document;
+        this.type = type;
+        this.wallet = wallet;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN){
+        if (this.role == UserRole.ADMIN) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_ADMIN")
