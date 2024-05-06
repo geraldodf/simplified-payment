@@ -43,6 +43,7 @@ public class UserService {
 
     public User update(Long id, UpdateUserDTO userDTO) {
         User user = this.getOneById(id);
+        if (user == null) return null;
         return this.userRepository.save(userDTO.updateUser(user));
     }
 

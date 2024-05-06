@@ -5,7 +5,6 @@ import com.simplifiedpayment.data.models.User;
 public record UpdateUserDTO(
         String name,
         String email,
-        String password,
         String document,
         String type,
         Double wallet
@@ -18,9 +17,6 @@ public record UpdateUserDTO(
         }
         if (isValid(this.email)) {
             user.setEmail(this.email);
-        }
-        if (isValid(this.password)) {
-            user.setPassword(this.password);
         }
         if (isValid(this.document)) {
             user.setDocument(this.document);
@@ -41,9 +37,6 @@ public record UpdateUserDTO(
         }
         if (isValid(this.email)) {
             existingUser.setEmail(this.email);
-        }
-        if (isValid(this.password)) {
-            existingUser.setPassword(this.password);
         }
         if (isValid(this.document)) {
             existingUser.setDocument(this.document);

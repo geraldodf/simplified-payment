@@ -51,7 +51,7 @@ public class UserResource {
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody UpdateUserDTO userDTO) {
         User createdUser = this.userService.update(id, userDTO);
-        if (createdUser == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        if (createdUser == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
