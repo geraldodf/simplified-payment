@@ -46,9 +46,11 @@ public class UserService {
         return this.userRepository.save(userDTO.updateUser(user));
     }
 
-    public void delete(Long id) {
-        User userToDelete = Objects.requireNonNull(this.getOneById(id));
+    public boolean delete(Long id) {
+        User userToDelete = this.getOneById(id);
+        if (userToDelete == null) return false;
         this.userRepository.delete(userToDelete);
+        return true;
     }
 
     public void updateWallet(User user) {
