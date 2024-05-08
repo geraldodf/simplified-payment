@@ -55,7 +55,7 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         boolean deleted = this.userService.delete(id);
         if(!deleted) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
