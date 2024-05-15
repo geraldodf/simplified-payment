@@ -1,5 +1,7 @@
 package com.simplifiedpayment.infra.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,13 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final SecurityFilter securityFilter;
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-    public SecurityConfiguration(SecurityFilter securityFilter){
+    public SecurityConfiguration(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
+        logger.info("Configurando filtro de segurança.");
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -42,11 +46,13 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        logger.info("Configurando gerenciador de autenticação.");
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
+        logger.info("Configurando codificador de senha.");
         return new BCryptPasswordEncoder();
     }
 }

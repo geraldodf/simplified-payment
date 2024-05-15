@@ -6,6 +6,8 @@ import com.simplifiedpayment.data.models.User;
 import com.simplifiedpayment.repositories.TransferRepository;
 import com.simplifiedpayment.notification.SendEmailNotification;
 import com.simplifiedpayment.utils.ObterMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class TransferService {
     private final TransferRepository transferRepository;
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
 
     public TransferService(TransferRepository transferRepository, UserService userService) {
         this.transferRepository = transferRepository;
@@ -24,11 +27,12 @@ public class TransferService {
     }
 
     public List<Transfer> getAll() {
+        logger.info("Buscando todas as transferências.");
         return this.transferRepository.findAll();
     }
 
-
     public Transfer getOneById(Long id) {
+        logger.info("Buscando transferência por ID: {}", id);
         Optional<Transfer> optionalTransfer = this.transferRepository.findById(id);
         boolean isPresent = optionalTransfer.isPresent();
         Transfer transfer = isPresent ? optionalTransfer.get() : null;
@@ -41,6 +45,7 @@ public class TransferService {
 
     @Transactional
     public Transfer create(CreateTransferDTO transferDto) {
+        logger.info("Criando nova transferência.");
         try {
             User userTo = this.userService.getOneById(transferDto.toId());
             User userFrom = this.userService.getOneById(transferDto.fromId());
@@ -75,11 +80,13 @@ public class TransferService {
 
             return this.transferRepository.save(transfer);
         } catch (Exception e) {
+            logger.error("Erro ao criar a transferência: {}", e.getMessage());
             throw new IllegalArgumentException(e);
         }
     }
 
     public void delete(Long id) {
+        logger.info("Deletando transferência com ID: {}", id);
         Transfer transferToDelete = Objects.requireNonNull(this.getOneById(id));
         this.transferRepository.delete(transferToDelete);
     }
